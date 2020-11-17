@@ -9,11 +9,13 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import dao.BookDAO_MariaDB;
 import service.BookService;
 import service.BookServiceImpl;
 import vo.BookVO;
+import vo.UserVO;
 
 @WebServlet("/bookList.do") //이 이름으로 요청이 들어오면 해당 서비스 메소드가 실행됨, get post 상관없이
 public class BookListServlet extends HttpServlet {
@@ -23,6 +25,18 @@ public class BookListServlet extends HttpServlet {
 			
 		request.setCharacterEncoding("UTF-8"); // 이거 안 하면 한글 깨짐
 		response.setContentType("text/html;charset=utf-8");
+		
+		HttpSession session = request.getSession();
+		UserVO login = (UserVO)session.getAttribute("login"); //return값은 object ?? (뒷쪽을)스트링으로 캐스팅해도 되고, 앞쪽을 UserVO 타입으로 지정해줘도됨
+		//로그인 객체가 UserVO에 담겨 있어서 ??? 로그인로그아웃 서블릿에서??
+		if (login == null) { //로그인 페이지로 보내야 함
+			//아래 부분 로그인로그아웃 서블릿에서 갖고 옴
+			request.setAttribute("msg", "로그인 실패, 로그인 정보를 다시 입력하세요."); //리퀘스트 객체에 에러 메시지 박아둠
+			getServletContext().getRequestDispatcher("/login.jsp").forward(request, response);
+			return; //이 이상 수행할 필요 없다?
+		} 
+		
+		
 			
 		//컨트롤 시프트 o (import) / jsp에서 옮김 -- 데이터 꺼내옴
 		BookDAO_MariaDB dao = new BookDAO_MariaDB();

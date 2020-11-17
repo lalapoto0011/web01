@@ -6,7 +6,8 @@
 	           <h1>Page Title</h1>
 	       </hgroup>
 	    </header>
-	    
+
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 	
 	<nav>
 	    <ul>
@@ -19,7 +20,7 @@
 		   </c:if>
 			
 			<c:if test="${!empty login }">
-			   <li> <a href="logout.do"> LogOut </a></li><br>
+			   <li> <a href="logout.do"> LogOut</a>(${login.name})</li><br>
 			</c:if>
 	    </ul>
 	</nav>

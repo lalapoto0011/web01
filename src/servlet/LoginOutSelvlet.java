@@ -52,10 +52,10 @@ public class LoginOutSelvlet extends HttpServlet {
 			session.setAttribute("login", login); //세션 객체에 로그인을 박음?
 			getServletContext().getRequestDispatcher("/index.jsp").forward(request, response);
 			
-		} else {
-			request.setAttribute("msg", "로그인 실패, 로그인 정보를 다시 입력하세요.");
+		} else { //포워딩 
+			request.setAttribute("msg", "로그인 실패, 로그인 정보를 다시 입력하세요."); //리퀘스트 객체에 에러 메시지 박아둠
 			getServletContext().getRequestDispatcher("/login.jsp").forward(request, response);
-
+			
 		}
 	
 	}
